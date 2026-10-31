@@ -39,16 +39,19 @@ Docs:
 
 - [docs/GUIDE.md](docs/GUIDE.md): step by step — concepts, setup, manifests, method, difficulties and fixes, cleanup
 - [docs/RESULTS.md](docs/RESULTS.md): all tables and the analysis, sizing examples and cost reference
+- [reports/DeepSeek-V4-Flash-benchmark-results.docx](reports/DeepSeek-V4-Flash-benchmark-results.docx): Word report
+  (all tables, sizing, cost, fit for developer workloads), built by `scripts/make_report_docx.js`
 
 ## Layout
 
 ```
 k8s/        namespace, model download Job, vLLM Deployments (TP=8, TP=8+MTP, 2xTP=4, 2xTP=4+MTP), node cleanup pod
 scripts/    bench.sh (random prompts), bench-realtext.sh (Spec-Bench), run-tp4x2*.sh (two-replica runs),
-            summarize.py, summarize_realtext.py, combine_replicas.py, gpu_stats.py
+            summarize.py, summarize_realtext.py, combine_replicas.py, gpu_stats.py, make_report_docx.js
 results/    raw `vllm bench serve` JSON per configuration, summaries, GPU telemetry, hardware topology
 logs/       server start-up logs, benchmark console logs, MTP acceptance metrics, cleanup log
 docs/       GUIDE.md and RESULTS.md
+reports/    Word report (generated from results/)
 ```
 
 | results/ folder | Content |
