@@ -39,6 +39,8 @@ Docs:
 
 - [docs/GUIDE.md](docs/GUIDE.md): step by step — concepts, setup, manifests, method, difficulties and fixes, cleanup
 - [docs/RESULTS.md](docs/RESULTS.md): all tables and the analysis, sizing examples and cost reference
+- [docs/V4.1-FLASH.md](docs/V4.1-FLASH.md): fit for developer workloads, what DeepSeek-V4.1-Flash changes, risks on this
+  node and test plan, with sources
 - [reports/DeepSeek-V4-Flash-benchmark-results.docx](reports/DeepSeek-V4-Flash-benchmark-results.docx): Word report
   (all tables, sizing, cost, fit for developer workloads), built by `scripts/make_report_docx.js`
 
@@ -50,7 +52,7 @@ scripts/    bench.sh (random prompts), bench-realtext.sh (Spec-Bench), run-tp4x2
             summarize.py, summarize_realtext.py, combine_replicas.py, gpu_stats.py, make_report_docx.js
 results/    raw `vllm bench serve` JSON per configuration, summaries, GPU telemetry, hardware topology
 logs/       server start-up logs, benchmark console logs, MTP acceptance metrics, cleanup log
-docs/       GUIDE.md and RESULTS.md
+docs/       GUIDE.md, RESULTS.md and V4.1-FLASH.md
 reports/    Word report (generated from results/)
 ```
 

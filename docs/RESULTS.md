@@ -1,6 +1,7 @@
 # Results — DeepSeek-V4-Flash on 8× RTX PRO 6000 Blackwell (vLLM 0.32.0)
 
 Test date: 2026-10-31. Setup and method: [GUIDE.md](GUIDE.md). Raw data: [results/](../results).
+Fit for developer workloads and the V4.1-Flash analysis: [V4.1-FLASH.md](V4.1-FLASH.md).
 
 Unless stated otherwise: random prompts of a fixed length, **512 output tokens**, prefix caching off, medians (p50).
 "tok/s per user" = 1000 / TPOT. "tok/s total" = output tokens per second of the whole server.
