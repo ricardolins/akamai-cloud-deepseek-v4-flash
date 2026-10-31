@@ -4,7 +4,7 @@
 # Usage: bench.sh <tag> [output_len] [set]
 #   set = main (default) | long | sweep | all
 #   main : single user at 8k / 10k / 32k / 60k / 120k + 10k prompt at 2/4/8 users
-#   long : single user at 240k / 500k / 1M (needs --max-model-len >= 1,048,576)
+#   long : single user at 240k / 512k / 1M (needs --max-model-len >= 1,048,576)
 #   sweep: 10k prompt at concurrency 16..128 to find the throughput plateau (SWEEP env overrides the levels)
 #   ctxload: 60k and 120k prompts at 2/4/8 users (long context under concurrency)
 #   MODEL / TOKENIZER env vars override the served model name and tokenizer
@@ -39,7 +39,7 @@ fi
 if [[ $SET == long || $SET == all ]]; then
 # very long context, DeepSeek-V4's headline feature (1M-token window)
 run 240000  1 3
-run 500000  1 2
+run 512000  1 2
 run 1000000 1 2
 fi
 if [[ $SET == ctxload || $SET == all ]]; then
