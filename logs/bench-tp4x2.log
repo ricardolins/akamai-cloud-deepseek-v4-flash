@@ -1,0 +1,474 @@
+=== 14:43:19 in8000_out512_c1
+Successful requests:                     10        
+Failed requests:                         0         
+Benchmark duration (s):                  60.27     
+Output token throughput (tok/s):         84.95     
+Mean TTFT (ms):                          815.80    
+Median TTFT (ms):                        815.84    
+P99 TTFT (ms):                           820.87    
+Mean TPOT (ms):                          10.20     
+Median TPOT (ms):                        10.20     
+Mean ITL (ms):                           10.20     
+Median ITL (ms):                         10.21     
+P99 ITL (ms):                            10.47     
+Mean E2EL (ms):                          6026.71   
+Median E2EL (ms):                        6022.95   
+=== 14:44:36 in10000_out512_c1
+Successful requests:                     10        
+Failed requests:                         0         
+Benchmark duration (s):                  62.68     
+Output token throughput (tok/s):         81.69     
+Mean TTFT (ms):                          1033.25   
+Median TTFT (ms):                        1032.97   
+P99 TTFT (ms):                           1038.66   
+Mean TPOT (ms):                          10.24     
+Median TPOT (ms):                        10.24     
+Mean ITL (ms):                           10.24     
+Median ITL (ms):                         10.25     
+P99 ITL (ms):                            10.69     
+Mean E2EL (ms):                          6267.44   
+Median E2EL (ms):                        6268.21   
+=== 14:45:56 in32000_out512_c1
+Successful requests:                     5         
+Failed requests:                         0         
+Benchmark duration (s):                  43.07     
+Output token throughput (tok/s):         59.43     
+Mean TTFT (ms):                          3282.90   
+Median TTFT (ms):                        3282.46   
+P99 TTFT (ms):                           3285.79   
+Mean TPOT (ms):                          10.43     
+Median TPOT (ms):                        10.43     
+Mean ITL (ms):                           10.43     
+Median ITL (ms):                         10.46     
+P99 ITL (ms):                            10.72     
+Mean E2EL (ms):                          8614.25   
+Median E2EL (ms):                        8611.31   
+=== 14:46:58 in60000_out512_c1
+Successful requests:                     5         
+Failed requests:                         0         
+Benchmark duration (s):                  59.11     
+Output token throughput (tok/s):         43.31     
+Mean TTFT (ms):                          6339.82   
+Median TTFT (ms):                        6341.35   
+P99 TTFT (ms):                           6349.09   
+Mean TPOT (ms):                          10.73     
+Median TPOT (ms):                        10.76     
+Mean ITL (ms):                           10.75     
+Median ITL (ms):                         10.79     
+P99 ITL (ms):                            11.13     
+Mean E2EL (ms):                          11821.12  
+Median E2EL (ms):                        11829.26  
+=== 14:48:21 in120000_out512_c1
+Successful requests:                     5         
+Failed requests:                         0         
+Benchmark duration (s):                  95.33     
+Output token throughput (tok/s):         26.85     
+Mean TTFT (ms):                          13373.85  
+Median TTFT (ms):                        13374.49  
+P99 TTFT (ms):                           13383.80  
+Mean TPOT (ms):                          11.14     
+Median TPOT (ms):                        11.14     
+Mean ITL (ms):                           11.20     
+Median ITL (ms):                         11.22     
+P99 ITL (ms):                            11.62     
+Mean E2EL (ms):                          19064.26  
+Median E2EL (ms):                        19076.45  
+=== 14:50:30 in10000_out512_c2
+Successful requests:                     10        
+Failed requests:                         0         
+Benchmark duration (s):                  39.46     
+Output token throughput (tok/s):         129.75    
+Mean TTFT (ms):                          1528.80   
+Median TTFT (ms):                        1526.93   
+P99 TTFT (ms):                           2033.10   
+Mean TPOT (ms):                          12.45     
+Median TPOT (ms):                        12.45     
+Mean ITL (ms):                           12.45     
+Median ITL (ms):                         11.51     
+P99 ITL (ms):                            11.92     
+Mean E2EL (ms):                          7889.67   
+Median E2EL (ms):                        7890.91   
+=== 14:51:25 in10000_out512_c4
+Successful requests:                     16        
+Failed requests:                         0         
+Benchmark duration (s):                  41.91     
+Output token throughput (tok/s):         195.44    
+Mean TTFT (ms):                          2761.30   
+Median TTFT (ms):                        3022.52   
+P99 TTFT (ms):                           3969.12   
+Mean TPOT (ms):                          15.09     
+Median TPOT (ms):                        14.55     
+Mean ITL (ms):                           15.09     
+Median ITL (ms):                         12.72     
+P99 ITL (ms):                            14.12     
+Mean E2EL (ms):                          10473.32  
+Median E2EL (ms):                        10486.78  
+=== 14:52:23 in10000_out512_c8
+Successful requests:                     24        
+Failed requests:                         0         
+Benchmark duration (s):                  47.35     
+Output token throughput (tok/s):         259.50    
+Mean TTFT (ms):                          3996.05   
+Median TTFT (ms):                        4003.45   
+P99 TTFT (ms):                           7818.21   
+Mean TPOT (ms):                          23.03     
+Median TPOT (ms):                        22.55     
+Mean ITL (ms):                           23.03     
+Median ITL (ms):                         15.58     
+P99 ITL (ms):                            301.94    
+Mean E2EL (ms):                          15766.42  
+Median E2EL (ms):                        15728.21  
+=== done 14:53:27
+=== 14:53:27 in240000_out512_c1
+Successful requests:                     3         
+Failed requests:                         0         
+Benchmark duration (s):                  107.94    
+Output token throughput (tok/s):         14.23     
+Mean TTFT (ms):                          29790.02  
+Median TTFT (ms):                        29789.84  
+P99 TTFT (ms):                           29813.73  
+Mean TPOT (ms):                          12.11     
+Median TPOT (ms):                        12.12     
+Mean ITL (ms):                           12.32     
+Median ITL (ms):                         12.33     
+P99 ITL (ms):                            12.57     
+Mean E2EL (ms):                          35979.09  
+Median E2EL (ms):                        35983.03  
+=== 14:56:04 in512000_out512_c1
+Successful requests:                     2         
+Failed requests:                         0         
+Benchmark duration (s):                  174.76    
+Output token throughput (tok/s):         5.86      
+Mean TTFT (ms):                          79818.49  
+Median TTFT (ms):                        79818.49  
+P99 TTFT (ms):                           79820.58  
+Mean TPOT (ms):                          14.77     
+Median TPOT (ms):                        14.77     
+Mean ITL (ms):                           15.12     
+Median ITL (ms):                         15.13     
+P99 ITL (ms):                            15.55     
+Mean E2EL (ms):                          87364.19  
+Median E2EL (ms):                        87364.19  
+=== 15:00:43 in1000000_out512_c1
+Successful requests:                     2         
+Failed requests:                         0         
+Benchmark duration (s):                  453.56    
+Output token throughput (tok/s):         2.26      
+Mean TTFT (ms):                          216738.98 
+Median TTFT (ms):                        216738.98 
+P99 TTFT (ms):                           216792.68 
+Mean TPOT (ms):                          19.62     
+Median TPOT (ms):                        19.62     
+Mean ITL (ms):                           20.23     
+Median ITL (ms):                         20.20     
+P99 ITL (ms):                            20.77     
+Mean E2EL (ms):                          226765.10 
+Median E2EL (ms):                        226765.10 
+=== done 15:12:26
+### both replicas: ctxload
+=== 15:12:26 in60000_out512_c1
+=== 15:12:26 in60000_out512_c1
+Successful requests:                     4         
+Failed requests:                         0         
+Benchmark duration (s):                  46.61     
+Output token throughput (tok/s):         43.94     
+Mean TTFT (ms):                          6345.73   
+Median TTFT (ms):                        6347.05   
+P99 TTFT (ms):                           6349.04   
+Mean TPOT (ms):                          10.38     
+Median TPOT (ms):                        10.38     
+Mean ITL (ms):                           10.43     
+Median ITL (ms):                         10.43     
+P99 ITL (ms):                            10.76     
+Mean E2EL (ms):                          11652.27  
+Median E2EL (ms):                        11651.73  
+=== 15:13:35 in60000_out512_c2
+Successful requests:                     4         
+Failed requests:                         0         
+Benchmark duration (s):                  47.13     
+Output token throughput (tok/s):         43.45     
+Mean TTFT (ms):                          6366.81   
+Median TTFT (ms):                        6361.76   
+P99 TTFT (ms):                           6397.39   
+Mean TPOT (ms):                          10.60     
+Median TPOT (ms):                        10.63     
+Mean ITL (ms):                           10.62     
+Median ITL (ms):                         10.67     
+P99 ITL (ms):                            11.02     
+Mean E2EL (ms):                          11782.10  
+Median E2EL (ms):                        11785.92  
+=== 15:13:39 in60000_out512_c2
+Successful requests:                     4         
+Failed requests:                         0         
+Benchmark duration (s):                  37.00     
+Output token throughput (tok/s):         55.35     
+Mean TTFT (ms):                          9676.36   
+Median TTFT (ms):                        9660.90   
+P99 TTFT (ms):                           12515.77  
+Mean TPOT (ms):                          17.23     
+Median TPOT (ms):                        17.23     
+Mean ITL (ms):                           17.30     
+Median ITL (ms):                         11.87     
+P99 ITL (ms):                            12.83     
+Mean E2EL (ms):                          18480.46  
+Median E2EL (ms):                        18462.69  
+=== 15:14:34 in60000_out512_c4
+Successful requests:                     4         
+Failed requests:                         0         
+Benchmark duration (s):                  38.85     
+Output token throughput (tok/s):         52.71     
+Mean TTFT (ms):                          10160.19  
+Median TTFT (ms):                        9677.58   
+P99 TTFT (ms):                           14346.83  
+Mean TPOT (ms):                          18.10     
+Median TPOT (ms):                        17.18     
+Mean ITL (ms):                           18.13     
+Median ITL (ms):                         11.80     
+P99 ITL (ms):                            13.98     
+Mean E2EL (ms):                          19408.87  
+Median E2EL (ms):                        19391.85  
+=== 15:14:40 in60000_out512_c4
+Successful requests:                     8         
+Failed requests:                         0         
+Benchmark duration (s):                  63.14     
+Output token throughput (tok/s):         64.88     
+Mean TTFT (ms):                          14741.40  
+Median TTFT (ms):                        15013.00  
+P99 TTFT (ms):                           24454.24  
+Mean TPOT (ms):                          32.80     
+Median TPOT (ms):                        31.81     
+Mean ITL (ms):                           32.90     
+Median ITL (ms):                         13.24     
+P99 ITL (ms):                            849.39    
+Mean E2EL (ms):                          31502.10  
+Median E2EL (ms):                        31479.06  
+=== 15:16:01 in120000_out512_c1
+Successful requests:                     8         
+Failed requests:                         0         
+Benchmark duration (s):                  63.28     
+Output token throughput (tok/s):         64.73     
+Mean TTFT (ms):                          14743.38  
+Median TTFT (ms):                        15012.45  
+P99 TTFT (ms):                           24455.66  
+Mean TPOT (ms):                          32.94     
+Median TPOT (ms):                        32.37     
+Mean ITL (ms):                           33.00     
+Median ITL (ms):                         13.48     
+P99 ITL (ms):                            849.46    
+Mean E2EL (ms):                          31573.66  
+Median E2EL (ms):                        31507.46  
+=== 15:16:07 in120000_out512_c1
+Successful requests:                     4         
+Failed requests:                         0         
+Benchmark duration (s):                  76.23     
+Output token throughput (tok/s):         26.87     
+Mean TTFT (ms):                          13396.96  
+Median TTFT (ms):                        13398.84  
+P99 TTFT (ms):                           13402.68  
+Mean TPOT (ms):                          11.08     
+Median TPOT (ms):                        11.04     
+Mean ITL (ms):                           11.17     
+Median ITL (ms):                         11.19     
+P99 ITL (ms):                            11.62     
+Mean E2EL (ms):                          19056.35  
+Median E2EL (ms):                        19040.78  
+=== 15:17:49 in120000_out512_c2
+Successful requests:                     4         
+Failed requests:                         0         
+Benchmark duration (s):                  76.17     
+Output token throughput (tok/s):         26.89     
+Mean TTFT (ms):                          13417.62  
+Median TTFT (ms):                        13412.36  
+P99 TTFT (ms):                           13444.34  
+Mean TPOT (ms):                          11.00     
+Median TPOT (ms):                        11.01     
+Mean ITL (ms):                           11.10     
+Median ITL (ms):                         11.11     
+P99 ITL (ms):                            11.39     
+Mean E2EL (ms):                          19040.67  
+Median E2EL (ms):                        19040.44  
+=== 15:17:54 in120000_out512_c2
+Successful requests:                     4         
+Failed requests:                         0         
+Benchmark duration (s):                  65.55     
+Output token throughput (tok/s):         31.25     
+Mean TTFT (ms):                          20053.52  
+Median TTFT (ms):                        20013.33  
+P99 TTFT (ms):                           26503.79  
+Mean TPOT (ms):                          24.81     
+Median TPOT (ms):                        24.81     
+Mean ITL (ms):                           25.03     
+Median ITL (ms):                         12.61     
+P99 ITL (ms):                            846.01    
+Mean E2EL (ms):                          32729.88  
+Median E2EL (ms):                        32692.31  
+=== 15:19:26 in120000_out512_c4
+Successful requests:                     4         
+Failed requests:                         0         
+Benchmark duration (s):                  65.57     
+Output token throughput (tok/s):         31.23     
+Mean TTFT (ms):                          20067.65  
+Median TTFT (ms):                        20025.62  
+P99 TTFT (ms):                           26530.97  
+Mean TPOT (ms):                          24.80     
+Median TPOT (ms):                        24.80     
+Mean ITL (ms):                           24.95     
+Median ITL (ms):                         12.56     
+P99 ITL (ms):                            847.09    
+Mean E2EL (ms):                          32742.05  
+Median E2EL (ms):                        32701.20  
+=== 15:19:31 in120000_out512_c4
+Successful requests:                     8         
+Failed requests:                         0         
+Benchmark duration (s):                  119.26    
+Output token throughput (tok/s):         34.35     
+Mean TTFT (ms):                          30230.95  
+Median TTFT (ms):                        30509.07  
+P99 TTFT (ms):                           51704.94  
+Mean TPOT (ms):                          57.26     
+Median TPOT (ms):                        56.51     
+Mean ITL (ms):                           57.60     
+Median ITL (ms):                         14.46     
+P99 ITL (ms):                            942.38    
+Mean E2EL (ms):                          59490.63  
+Median E2EL (ms):                        59446.85  
+=== done 15:21:59
+Successful requests:                     8         
+Failed requests:                         0         
+Benchmark duration (s):                  119.04    
+Output token throughput (tok/s):         34.41     
+Mean TTFT (ms):                          30490.08  
+Median TTFT (ms):                        30983.91  
+P99 TTFT (ms):                           51799.50  
+Mean TPOT (ms):                          56.55     
+Median TPOT (ms):                        55.45     
+Mean ITL (ms):                           57.05     
+Median ITL (ms):                         14.06     
+P99 ITL (ms):                            944.53    
+Mean E2EL (ms):                          59386.84  
+Median E2EL (ms):                        59296.26  
+=== done 15:22:04
+### both replicas: sweep
+=== 15:22:04 in10000_out512_c8
+=== 15:22:04 in10000_out512_c8
+Successful requests:                     16        
+Failed requests:                         0         
+Benchmark duration (s):                  31.43     
+Output token throughput (tok/s):         260.65    
+Mean TTFT (ms):                          4038.68   
+Median TTFT (ms):                        3832.10   
+P99 TTFT (ms):                           7833.62   
+Mean TPOT (ms):                          22.80     
+Median TPOT (ms):                        23.20     
+Mean ITL (ms):                           22.80     
+Median ITL (ms):                         15.48     
+P99 ITL (ms):                            269.67    
+Mean E2EL (ms):                          15687.38  
+Median E2EL (ms):                        15654.01  
+=== 15:22:51 in10000_out512_c16
+Successful requests:                     16        
+Failed requests:                         0         
+Benchmark duration (s):                  31.69     
+Output token throughput (tok/s):         258.52    
+Mean TTFT (ms):                          4157.16   
+Median TTFT (ms):                        4005.34   
+P99 TTFT (ms):                           7859.41   
+Mean TPOT (ms):                          22.82     
+Median TPOT (ms):                        22.87     
+Mean ITL (ms):                           22.82     
+Median ITL (ms):                         15.77     
+P99 ITL (ms):                            21.97     
+Mean E2EL (ms):                          15818.30  
+Median E2EL (ms):                        15813.41  
+=== 15:22:54 in10000_out512_c16
+Successful requests:                     32        
+Failed requests:                         0         
+Benchmark duration (s):                  51.68     
+Output token throughput (tok/s):         317.04    
+Mean TTFT (ms):                          6192.94   
+Median TTFT (ms):                        4009.95   
+P99 TTFT (ms):                           15618.55  
+Mean TPOT (ms):                          38.30     
+Median TPOT (ms):                        42.51     
+Mean ITL (ms):                           38.30     
+Median ITL (ms):                         20.38     
+P99 ITL (ms):                            801.45    
+Mean E2EL (ms):                          25764.83  
+Median E2EL (ms):                        25670.96  
+=== 15:24:00 in10000_out512_c32
+Successful requests:                     32        
+Failed requests:                         0         
+Benchmark duration (s):                  51.29     
+Output token throughput (tok/s):         319.45    
+Mean TTFT (ms):                          6200.60   
+Median TTFT (ms):                        4014.32   
+P99 TTFT (ms):                           15649.23  
+Mean TPOT (ms):                          37.91     
+Median TPOT (ms):                        42.36     
+Mean ITL (ms):                           37.91     
+Median ITL (ms):                         19.83     
+P99 ITL (ms):                            801.95    
+Mean E2EL (ms):                          25572.72  
+Median E2EL (ms):                        25486.03  
+=== 15:24:02 in10000_out512_c32
+Successful requests:                     64        
+Failed requests:                         0         
+Benchmark duration (s):                  91.77     
+Output token throughput (tok/s):         357.08    
+Mean TTFT (ms):                          9990.97   
+Median TTFT (ms):                        4011.38   
+P99 TTFT (ms):                           30935.60  
+Mean TPOT (ms):                          69.89     
+Median TPOT (ms):                        80.11     
+Mean ITL (ms):                           69.89     
+Median ITL (ms):                         27.51     
+P99 ITL (ms):                            805.32    
+Mean E2EL (ms):                          45703.31  
+Median E2EL (ms):                        45520.16  
+=== 15:25:50 in10000_out512_c64
+Successful requests:                     64        
+Failed requests:                         0         
+Benchmark duration (s):                  92.05     
+Output token throughput (tok/s):         355.99    
+Mean TTFT (ms):                          10010.12  
+Median TTFT (ms):                        4016.49   
+P99 TTFT (ms):                           30989.97  
+Mean TPOT (ms):                          70.11     
+Median TPOT (ms):                        80.89     
+Mean ITL (ms):                           70.11     
+Median ITL (ms):                         27.88     
+P99 ITL (ms):                            806.13    
+Mean E2EL (ms):                          45836.08  
+Median E2EL (ms):                        45644.63  
+=== 15:25:53 in10000_out512_c64
+Successful requests:                     128       
+Failed requests:                         0         
+Benchmark duration (s):                  163.58    
+Output token throughput (tok/s):         400.63    
+Mean TTFT (ms):                          17847.26  
+Median TTFT (ms):                        4018.34   
+P99 TTFT (ms):                           61737.66  
+Mean TPOT (ms):                          124.16    
+Median TPOT (ms):                        151.67    
+Mean ITL (ms):                           124.16    
+Median ITL (ms):                         40.85     
+P99 ITL (ms):                            807.62    
+Mean E2EL (ms):                          81293.40  
+Median E2EL (ms):                        80608.68  
+=== done 15:28:54
+Successful requests:                     128       
+Failed requests:                         0         
+Benchmark duration (s):                  162.69    
+Output token throughput (tok/s):         402.83    
+Mean TTFT (ms):                          17864.48  
+Median TTFT (ms):                        4020.80   
+P99 TTFT (ms):                           61805.92  
+Mean TPOT (ms):                          123.25    
+Median TPOT (ms):                        150.24    
+Mean ITL (ms):                           123.25    
+Median ITL (ms):                         39.57     
+P99 ITL (ms):                            809.36    
+Mean E2EL (ms):                          80843.84  
+Median E2EL (ms):                        80191.87  
+=== done 15:28:57
+### ALL DONE
