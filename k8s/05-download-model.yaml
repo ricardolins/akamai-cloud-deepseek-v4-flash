@@ -1,0 +1,30 @@
+# One-off Job: download deepseek-ai/DeepSeek-V4-Flash (~160 GB) to the GPU node's local disk before vLLM starts,
+# so the server start-up time and the download time are measured separately.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: download-dsv4-flash
+  namespace: llm-bench
+spec:
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: hf
+        image: vllm/vllm-openai:v0.32.0   # same image as the server: huggingface_hub is already inside
+        command: ["bash", "-c"]
+        args:
+        - |
+          set -e; start=$(date +%s)
+          hf download deepseek-ai/DeepSeek-V4-Flash --max-workers 16 --exclude "assets/*"
+          echo "download finished in $(( $(date +%s) - start )) s"; du -sh /models/hf
+        env:
+        - {name: HF_HOME, value: /models/hf}
+        resources:
+          requests: {cpu: "8", memory: 16Gi}
+        volumeMounts:
+        - {name: models, mountPath: /models}
+      volumes:
+      - name: models
+        hostPath: {path: /var/lib/llm-models, type: DirectoryOrCreate}
