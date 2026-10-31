@@ -1,0 +1,49 @@
+=== 15:53:26 specbench_c1
+Successful requests:                     20        
+Failed requests:                         0         
+Total generated tokens:                  10026     
+Output token throughput (tok/s):         141.12    
+Median TTFT (ms):                        65.41     
+Median TPOT (ms):                        6.21      
+Median ITL (ms):                         11.08     
+Median E2EL (ms):                        3259.91   
+Acceptance rate (%):                     79.94     
+Acceptance length:                       1.80      
+Per-position acceptance (%):
+=== 15:54:48 specbench_c4
+Successful requests:                     20        
+Failed requests:                         0         
+Total generated tokens:                  9870      
+Output token throughput (tok/s):         409.29    
+Median TTFT (ms):                        89.76     
+Median TPOT (ms):                        9.20      
+Median ITL (ms):                         15.79     
+Median E2EL (ms):                        4803.40   
+Acceptance rate (%):                     78.46     
+Acceptance length:                       1.78      
+Per-position acceptance (%):
+=== 15:55:25 specbench_c16
+Successful requests:                     64        
+Failed requests:                         0         
+Total generated tokens:                  31195     
+Output token throughput (tok/s):         598.76    
+Median TTFT (ms):                        249.32    
+Median TPOT (ms):                        23.08     
+Median ITL (ms):                         30.85     
+Median E2EL (ms):                        12509.18  
+Acceptance rate (%):                     79.66     
+Acceptance length:                       1.80      
+Per-position acceptance (%):
+=== 15:56:29 specbench_c64
+Successful requests:                     256       
+Failed requests:                         0         
+Total generated tokens:                  119979    
+Output token throughput (tok/s):         1526.79   
+Median TTFT (ms):                        330.59    
+Median TPOT (ms):                        36.31     
+Median ITL (ms):                         53.97     
+Median E2EL (ms):                        18785.22  
+Acceptance rate (%):                     78.33     
+Acceptance length:                       1.78      
+Per-position acceptance (%):
+=== done 15:58:00
