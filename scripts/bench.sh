@@ -6,15 +6,15 @@
 #   main : single user at 8k / 10k / 32k / 60k / 120k + 10k prompt at 2/4/8 users
 #   long : single user at 240k / 512k / 1M (needs --max-model-len >= 1,048,576)
 #   sweep: 10k prompt at concurrency 16..128 to find the throughput plateau (SWEEP env overrides the levels)
-#   ctxload: 60k and 120k prompts at 2/4/8 users (long context under concurrency)
-#   MODEL / TOKENIZER env vars override the served model name and tokenizer
+#   ctxload: 60k and 120k prompts at 2/4/8 users (long context under concurrency; CTXLOAD env overrides)
+#   MODEL / TOKENIZER env vars override the served model name and tokenizer; BASE overrides the server URL
 set -euo pipefail
 TAG=${1:-baseline}; OUT=${2:-512}; SET=${3:-main}
 DIR=/models/results/$TAG; mkdir -p "$DIR"
 run() {  # run <input_len> <concurrency> <num_prompts>
   local IN=$1 C=$2 N=$3 NAME="in${1}_out${OUT}_c${2}"
   echo "=== $(date -u +%T) $NAME"
-  vllm bench serve --backend vllm --base-url http://127.0.0.1:8000 \
+  vllm bench serve --backend vllm --base-url ${BASE:-http://127.0.0.1:8000} \
     --model ${MODEL:-deepseek-v4-flash} --tokenizer ${TOKENIZER:-deepseek-ai/DeepSeek-V4-Flash} \
     ${TOKENIZER_MODE:+--tokenizer-mode $TOKENIZER_MODE} \
     --dataset-name random --random-input-len "$IN" --random-output-len "$OUT" --random-range-ratio 0 \
@@ -43,8 +43,8 @@ run 512000  1 2
 run 1000000 1 2
 fi
 if [[ $SET == ctxload || $SET == all ]]; then
-run 60000  2 6; run 60000  4 8; run 60000 8 16
-run 120000 2 4; run 120000 4 8; run 120000 8 16
+# CTXLOAD env overrides the levels (e.g. "1 2 4" per replica when two replicas share the load)
+for IN in 60000 120000; do for C in ${CTXLOAD:-2 4 8}; do N=$((C * 2)); [ $N -lt 4 ] && N=4; run $IN "$C" $N; done; done
 fi
 if [[ $SET == sweep || $SET == all ]]; then
 # throughput plateau: keep doubling concurrency; 2x requests per level so it reaches steady state
