@@ -1,0 +1,37 @@
+=== 16:06:34 specbench_c1
+Successful requests:                     20        
+Failed requests:                         0         
+Total generated tokens:                  9832      
+Output token throughput (tok/s):         98.72     
+Median TTFT (ms):                        62.68     
+Median TPOT (ms):                        9.16      
+Median ITL (ms):                         9.20      
+Median E2EL (ms):                        4738.10   
+=== 16:08:29 specbench_c4
+Successful requests:                     20        
+Failed requests:                         0         
+Total generated tokens:                  9772      
+Output token throughput (tok/s):         288.05    
+Median TTFT (ms):                        139.91    
+Median TPOT (ms):                        13.22     
+Median ITL (ms):                         13.14     
+Median E2EL (ms):                        6779.31   
+=== 16:09:14 specbench_c16
+Successful requests:                     64        
+Failed requests:                         0         
+Total generated tokens:                  30743     
+Output token throughput (tok/s):         550.34    
+Median TTFT (ms):                        804.61    
+Median TPOT (ms):                        21.99     
+Median ITL (ms):                         21.49     
+Median E2EL (ms):                        13493.91  
+=== 16:10:23 specbench_c64
+Successful requests:                     256       
+Failed requests:                         0         
+Total generated tokens:                  120775    
+Output token throughput (tok/s):         1129.98   
+Median TTFT (ms):                        875.02    
+Median TPOT (ms):                        52.52     
+Median ITL (ms):                         42.50     
+Median E2EL (ms):                        27131.44  
+=== done 16:12:23
