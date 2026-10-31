@@ -1,0 +1,67 @@
+# vLLM serving deepseek-ai/DeepSeek-V4-Flash (284B MoE, 13B active, FP4 experts + FP8 rest)
+# as TWO independent replicas with TP=4 each (4 GPUs per replica): no all-reduce across all 8 GPUs,
+# twice the number of engines. The Service load-balances between the two pods.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dsv4-flash
+  namespace: llm-bench
+  labels: {app: dsv4-flash}
+spec:
+  replicas: 2
+  strategy: {type: Recreate}
+  selector:
+    matchLabels: {app: dsv4-flash}
+  template:
+    metadata:
+      labels: {app: dsv4-flash}
+    spec:
+      containers:
+      - name: vllm
+        image: vllm/vllm-openai:v0.32.0
+        args:
+        - deepseek-ai/DeepSeek-V4-Flash
+        - --served-model-name=deepseek-v4-flash
+        - --tensor-parallel-size=4          # each replica splits the model across 4 GPUs
+        - --max-model-len=1048576           # the model's native 1M-token window
+        - --kv-cache-dtype=fp8
+        - --tokenizer-mode=deepseek_v4
+        - --reasoning-parser=deepseek_v4
+        - --gpu-memory-utilization=0.90
+        - --no-enable-prefix-caching        # every benchmark prompt must be prefilled for real
+        - --port=8000
+        env:
+        - {name: HF_HOME, value: /models/hf}
+        - {name: HF_HUB_OFFLINE, value: "1"}  # weights were pre-downloaded by the Job in 05-download-model.yaml
+        - {name: VLLM_LOGGING_LEVEL, value: INFO}
+        ports:
+        - {containerPort: 8000, name: http}
+        resources:
+          limits: {nvidia.com/gpu: 4}
+          requests: {nvidia.com/gpu: 4, cpu: "16", memory: 192Gi}
+        readinessProbe:
+          httpGet: {path: /health, port: 8000}
+          periodSeconds: 10
+          failureThreshold: 3
+        startupProbe:                       # loading 160 GB + kernel JIT + CUDA graph capture
+          httpGet: {path: /health, port: 8000}
+          periodSeconds: 15
+          failureThreshold: 240             # up to 60 min
+        volumeMounts:
+        - {name: models, mountPath: /models}
+        - {name: shm, mountPath: /dev/shm}
+      volumes:
+      - name: models                        # local disk of the GPU node; survives pod restarts
+        hostPath: {path: /var/lib/llm-models, type: DirectoryOrCreate}
+      - name: shm                           # NCCL needs a large /dev/shm for tensor parallelism
+        emptyDir: {medium: Memory, sizeLimit: 64Gi}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dsv4-flash
+  namespace: llm-bench
+spec:
+  selector: {app: dsv4-flash}
+  ports:
+  - {port: 8000, targetPort: http, name: http}
