@@ -156,10 +156,9 @@ The startup probe allows 60 minutes.
 | KV cache capacity | **6.26 M tokens** | **4.37 M tokens per replica** (8.7 M total) | 4.19 M per replica |
 | 1M-token requests that fit at once | 5.97 | 4.16 per replica | 3.99 per replica |
 
-> **Observation:** weight loading took 29 s for TP=8 (first start, right after the download, files in the page cache)
-> but 8–9 min when two replicas loaded at the same time later. The two replicas read the same 149 GB in parallel
-> from the node's local disk. For production, keep this in mind for scale-out time; a single replica restarting
-> alone loads much faster.
+> **Observation:** weight loading takes ~30 s when one engine starts alone (29 s for TP=8, 33 s for a single TP=4
+> replica) but **8–9 min when two replicas start at the same time** — both read the same 149 GB from the node's disk
+> in parallel. For production: stagger replica start-ups.
 
 Smoke test:
 
@@ -202,7 +201,28 @@ python3 scripts/summarize.py results/tp8
 
 Results are written to `/models/results/<tag>` on the node (hostPath) and copied into [results/](../results).
 
-### 4.7 Why 2×TP=4 beats TP=8 on this node
+### 4.7 MTP needs real text
+
+The first MTP run used the same random-token prompts and MTP came out **slower** (TPOT 11.8 ms vs 10.2 ms). The
+server log explains it: `SpecDecoding metrics: ... Per-position acceptance rate: 0.006–0.12`. A draft of random text
+is almost never right, so MTP only adds work. The run was stopped and MTP was compared on **real text**:
+[Spec-Bench](https://github.com/hemingkx/Spec-Bench) (480 questions, 13 categories) through the chat endpoint,
+same seed and questions with and without MTP ([scripts/bench-realtext.sh](../scripts/bench-realtext.sh)):
+
+```bash
+curl -sL -o /models/spec_bench.jsonl \
+  https://raw.githubusercontent.com/hemingkx/Spec-Bench/refs/heads/main/data/spec_bench/question.jsonl
+pip install pandas                      # the vLLM image lacks it; vllm bench needs it for jsonl datasets
+bash /models/bench-realtext.sh tp4-mtp-realtext
+python3 scripts/summarize_realtext.py results/tp4-realtext results/tp4-mtp-realtext
+```
+
+The client needs `--tokenizer-mode deepseek_v4`: DeepSeek-V4 has no Hugging Face `chat_template`; its prompt format
+lives in vLLM's `deepseek_v4` tokenizer.
+
+On real text MTP is accepted ~80% of the time (1.8 tokens per step).
+
+### 4.8 Why 2×TP=4 beats TP=8 on this node
 
 1. **No NVLink.** vLLM disables its fast all-reduce paths on this hardware (start-up warnings):
    `SymmMemCommunicator: Device capability 12.0 not supported`,
@@ -227,18 +247,25 @@ on communication. Single-user decode is **74 tok/s on TP=8 vs 98 tok/s on one TP
 | 4 | Benchmarks dying with the laptop connection | Long `kubectl exec` sessions | Run the benchmark with `nohup` **inside** the pod; poll the log file |
 | 5 | Running two replicas' tests from inside one pod | Each replica only knows `127.0.0.1` | `BASE` env var in `bench.sh`: replica A drives replica B by pod IP |
 | 6 | Slow start of 2 replicas (16–17 min) | Both read 149 GB from local disk at the same time (weight load 8–9 min) | Documented; start replicas one at a time if start-up time matters |
-| 7 | TP=8 slower than expected | No NVLink + all-reduce across 2 CPU sockets | Use 2 replicas × TP=4 (4.7) |
+| 7 | TP=8 slower than expected | No NVLink + all-reduce across 2 CPU sockets | Use 2 replicas × TP=4 (4.8) |
+| 8 | MTP slower than no MTP | Random-token prompts: draft accepted 1–12% | Measure MTP on real text (Spec-Bench): 80% acceptance, +35–47% (4.7) |
+| 9 | `vllm bench` with Spec-Bench: `No module named 'pandas'` | Not in the vLLM image | `pip install pandas` in the pod |
+| 10 | `Cannot use chat template functions because tokenizer.chat_template is not set` | DeepSeek-V4 ships its prompt encoder as code, not as an HF template | `--tokenizer-mode deepseek_v4` on the benchmark client |
+| 11 | Cleanup: `crictl: No such file or directory` | LKE nodes ship `ctr`, not `crictl` | `ctr -n k8s.io images rm ...` ([k8s/90-cleanup-node.yaml](../k8s/90-cleanup-node.yaml)) |
 
 ## 6. Cleanup
 
-Everything created by this test is removed at the end:
+Everything created by this test was removed at the end:
 
 ```bash
-kubectl delete namespace llm-bench                  # vLLM deployments, service, download job
-# model weights (149 GB) and results on the node's disk, via a short privileged pod with the hostPath:
-#   rm -rf /var/lib/llm-models
-# vLLM image from containerd on the node:
-#   crictl rmi docker.io/vllm/vllm-openai:v0.32.0
+kubectl delete namespace llm-bench          # vLLM deployments, service, download Job
+kubectl apply -f k8s/90-cleanup-node.yaml   # privileged pod: rm -rf /var/lib/llm-models (149 GB),
+                                            # ctr images rm vllm/vllm-openai:v0.32.0 (9.2 GB),
+                                            # and a host timer that removes its own image after it exits
+kubectl delete pod cleanup-node
 ```
 
-The GPU Operator (namespace `gpu-operator`) was installed before this test as part of the cluster setup and is kept.
+Output: [logs/cleanup-node.log](../logs/cleanup-node.log). The cleanup pod reuses an image already on the node
+(`nvidia/cuda:12.9.1-base`, left from the GPU validation), and a `systemd-run` timer on the host removes that
+image two minutes after the pod is gone. The GPU Operator (namespace `gpu-operator`) belongs to the cluster
+setup and was kept.

@@ -1,0 +1,19 @@
++ H='nsenter -t 1 -m -u -i -n -p --'
++ nsenter -t 1 -m -u -i -n -p -- du -sh /var/lib/llm-models
+du: cannot access '/var/lib/llm-models': No such file or directory
++ nsenter -t 1 -m -u -i -n -p -- rm -rf /var/lib/llm-models
++ nsenter -t 1 -m -u -i -n -p -- sh -c 'ctr -n k8s.io images ls -q | grep vllm/vllm-openai | xargs -r ctr -n k8s.io images rm'
+docker.io/vllm/vllm-openai:v0.32.0
+docker.io/vllm/vllm-openai@sha256:befccf0e7e4089aa23926bb6f887a85c0d46c2a99e6de5c5ffdf5cb7957c5b34
++ nsenter -t 1 -m -u -i -n -p -- systemd-run --on-active=120 --unit=rm-cuda-image sh -c 'ctr -n k8s.io images ls -q | grep nvidia/cuda | xargs -r ctr -n k8s.io images rm'
+Running timer as unit: rm-cuda-image.timer
+Will run service as unit: rm-cuda-image.service
++ nsenter -t 1 -m -u -i -n -p -- ls -la /var/lib/llm-models
+ls: cannot access '/var/lib/llm-models': No such file or directory
++ nsenter -t 1 -m -u -i -n -p -- ctr -n k8s.io images ls -q
++ grep -E 'vllm|cuda'
+docker.io/nvidia/cuda:12.9.1-base-ubuntu24.04
+docker.io/nvidia/cuda@sha256:29e5e3425e2e0f5a4e97c9fb4695ba4887cd78210a43cf94c3bcafc6ab01c5e6
++ nsenter -t 1 -m -u -i -n -p -- df -h /var/lib
++ tail -1
+/dev/sda        6.0T   39G  5.6T   1% /

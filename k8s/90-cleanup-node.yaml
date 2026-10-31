@@ -1,0 +1,27 @@
+# One-off cleanup pod: removes everything the benchmark left on the GPU node's disk.
+#  - /var/lib/llm-models (model weights 149 GB + raw results), the hostPath used by the download Job and vLLM
+#  - the vLLM image (9.2 GB) from containerd (LKE nodes have `ctr`, not `crictl`)
+#  - schedules (systemd timer on the host) the removal of this pod's own image after the pod is gone
+# Uses an image already present on the node, so nothing new is downloaded.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cleanup-node
+  namespace: default
+spec:
+  restartPolicy: Never
+  hostPID: true
+  containers:
+  - name: cleanup
+    image: docker.io/nvidia/cuda:12.9.1-base-ubuntu24.04
+    securityContext: {privileged: true}
+    command: ["bash", "-c"]
+    args:
+    - |
+      set -x
+      H="nsenter -t 1 -m -u -i -n -p --"
+      $H du -sh /var/lib/llm-models 2>&1
+      $H rm -rf /var/lib/llm-models
+      $H sh -c "ctr -n k8s.io images ls -q | grep vllm/vllm-openai | xargs -r ctr -n k8s.io images rm"
+      $H systemd-run --on-active=120 --unit=rm-cuda-image sh -c "ctr -n k8s.io images ls -q | grep nvidia/cuda | xargs -r ctr -n k8s.io images rm"
+      $H ls -la /var/lib/llm-models 2>&1; $H ctr -n k8s.io images ls -q | grep -E "vllm|cuda"; $H df -h /var/lib | tail -1
