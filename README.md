@@ -53,7 +53,7 @@ Docs:
 - [docs/RESULTS.md](docs/RESULTS.md): all tables and the analysis, sizing examples and cost reference
 - [docs/V4.1-FLASH.md](docs/V4.1-FLASH.md): DeepSeek-V4.1-Flash — what changes, why stock vLLM fails on SM120, the
   patched stack, results (latency, concurrency, agents, DSpark, quality), V4 vs V4.1 for developers, sources
-- [reports/DeepSeek-V4-Flash-benchmark-results.docx](reports/DeepSeek-V4-Flash-benchmark-results.docx): Word report
+- [reports/DeepSeek-V4-and-V4.1-Flash-benchmark-results.docx](reports/DeepSeek-V4-and-V4.1-Flash-benchmark-results.docx): Word report
   (all tables, sizing, cost, fit for developer workloads), built by `scripts/make_report_docx.js`
 
 ## Layout
