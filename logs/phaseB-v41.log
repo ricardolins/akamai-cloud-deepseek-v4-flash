@@ -1,0 +1,119 @@
+=== 18:07:37 agent sessions=1
+ "turns": 10,
+ "start": 30000,
+ "step": 6000,
+ "out": 256,
+ "max_prompt": 86304,
+ "wall_s": 42.86363606798113,
+ "ttft_first_turn_p50": 5.297718951012939,
+ "ttft_later_turns_p50": 0.5303716830094345,
+ "ttft_later_turns_p90": 0.5598115529865026,
+ "tpot_p50_ms": 12.83759684313326,
+ "turns_per_min": 13.997879205777325
+}
+=== 18:08:20 agent sessions=2
+ "turns": 10,
+ "start": 30000,
+ "step": 6000,
+ "out": 256,
+ "max_prompt": 86304,
+ "wall_s": 46.20176038600039,
+ "ttft_first_turn_p50": 1.461405496491352,
+ "ttft_later_turns_p50": 0.5589528410055209,
+ "ttft_later_turns_p90": 0.5825871900015045,
+ "tpot_p50_ms": 15.411278186251831,
+ "turns_per_min": 25.97303630801939
+}
+=== 18:09:06 agent sessions=4
+ "turns": 10,
+ "start": 30000,
+ "step": 6000,
+ "out": 256,
+ "max_prompt": 86304,
+ "wall_s": 63.852312660979806,
+ "ttft_first_turn_p50": 1.5889086824900005,
+ "ttft_later_turns_p50": 0.7877455049892887,
+ "ttft_later_turns_p90": 1.0455322539783083,
+ "tpot_p50_ms": 21.572370017597944,
+ "turns_per_min": 37.5867357027875
+}
+=== 18:10:10 agent sessions=8
+Traceback (most recent call last):
+  File "/models/agent_sim.py", line 80, in <module>
+    asyncio.run(main())
+  File "/usr/lib/python3.12/asyncio/runners.py", line 194, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/asyncio/base_events.py", line 687, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/models/agent_sim.py", line 64, in main
+    await asyncio.gather(*(session(http, s, rows) for s in range(a.sessions)))
+  File "/models/agent_sim.py", line 52, in session
+    r = await turn(http, ctx)
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "/models/agent_sim.py", line 37, in turn
+    async for line in r.content:
+  File "/usr/local/lib/python3.12/dist-packages/aiohttp/streams.py", line 46, in __anext__
+    rv = await self.read_func()
+         ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/aiohttp/streams.py", line 370, in readline
+    return await self.readuntil(max_size=max_line_length)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/aiohttp/streams.py", line 412, in readuntil
+    raise LineTooLong(chunk[:100] + b"...", max_size)
+aiohttp.http_exceptions.LineTooLong: 400, message:
+  Got more than 524288 bytes when reading: b'data: {"id":"cmpl-95f8ad400fbfae87","object":"text_completion","created":1793556694,"model":"deepsee...'.
+s1 t7 prompt=73792 ttft=1.04s tpot=30.6ms
+s2 t7 prompt=73792 ttft=1.63s tpot=28.3ms
+s3 t7 prompt=73792 ttft=2.21s tpot=26.0ms
+s4 t7 prompt=73792 ttft=1.93s tpot=27.1ms
+s5 t7 prompt=73792 ttft=0.57s tpot=32.5ms
+s6 t7 prompt=73792 ttft=0.56s tpot=32.6ms
+s7 t7 prompt=73792 ttft=1.03s tpot=30.7ms
+s0 t8 prompt=80048 ttft=0.60s tpot=32.2ms
+s1 t8 prompt=80048 ttft=1.06s tpot=30.4ms
+s2 t8 prompt=80048 ttft=1.66s tpot=28.0ms
+s3 t8 prompt=80048 ttft=2.23s tpot=25.8ms
+s4 t8 prompt=80048 ttft=1.94s tpot=27.0ms
+=== 18:11:38 specbench_c1
+Successful requests:                     20        
+Failed requests:                         0         
+Total generated tokens:                  7717      
+Output token throughput (tok/s):         77.87     
+Median TTFT (ms):                        66.35     
+Median TPOT (ms):                        12.65     
+Median ITL (ms):                         12.68     
+Median E2EL (ms):                        6517.54   
+=== 18:13:29 specbench_c4
+Successful requests:                     20        
+Failed requests:                         0         
+Total generated tokens:                  8020      
+Output token throughput (tok/s):         222.42    
+Median TTFT (ms):                        85.41     
+Median TPOT (ms):                        16.63     
+Median ITL (ms):                         16.41     
+Median E2EL (ms):                        8188.75   
+=== 18:14:17 specbench_c16
+Successful requests:                     64        
+Failed requests:                         0         
+Total generated tokens:                  25951     
+Output token throughput (tok/s):         549.19    
+Median TTFT (ms):                        170.56    
+Median TPOT (ms):                        26.43     
+Median ITL (ms):                         25.08     
+Median E2EL (ms):                        13086.39  
+=== 18:15:17 specbench_c64
+Successful requests:                     256       
+Failed requests:                         0         
+Total generated tokens:                  96028     
+Output token throughput (tok/s):         1061.19   
+Median TTFT (ms):                        261.74    
+Median TPOT (ms):                        55.27     
+Median ITL (ms):                         51.05     
+Median E2EL (ms):                        23994.04  
+=== done 18:17:00
+ALLDONE

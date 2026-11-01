@@ -1,0 +1,66 @@
+=== 18:18:58 sessions=1
+ "turns": 10,
+ "start": 30000,
+ "step": 6000,
+ "out": 256,
+ "max_prompt": 86304,
+ "wall_s": 39.70269648899557,
+ "ttft_first_turn_p50": 2.162138218001928,
+ "ttft_later_turns_p50": 0.5420907520165201,
+ "ttft_later_turns_p90": 0.5547334690054413,
+ "tpot_p50_ms": 12.804881139206426,
+ "turns_per_min": 15.112323672179356
+}
+=== 18:19:38 sessions=2
+ "turns": 10,
+ "start": 30000,
+ "step": 6000,
+ "out": 256,
+ "max_prompt": 86304,
+ "wall_s": 48.256325410999125,
+ "ttft_first_turn_p50": 3.3650696224940475,
+ "ttft_later_turns_p50": 0.5501967814925592,
+ "ttft_later_turns_p90": 0.5731897770019714,
+ "tpot_p50_ms": 15.427675043168824,
+ "turns_per_min": 24.86720631501881
+}
+=== 18:20:26 sessions=4
+ "turns": 10,
+ "start": 30000,
+ "step": 6000,
+ "out": 256,
+ "max_prompt": 86304,
+ "wall_s": 67.78368796900031,
+ "ttft_first_turn_p50": 5.638362297002459,
+ "ttft_later_turns_p50": 0.55503017049341,
+ "ttft_later_turns_p90": 1.0245602409995627,
+ "tpot_p50_ms": 21.657200200042652,
+ "turns_per_min": 35.40674861328876
+}
+=== 18:21:34 sessions=8
+ "turns": 10,
+ "start": 30000,
+ "step": 6000,
+ "out": 256,
+ "max_prompt": 86304,
+ "wall_s": 101.30947827600176,
+ "ttft_first_turn_p50": 10.079758199979551,
+ "ttft_later_turns_p50": 0.5601671885233372,
+ "ttft_later_turns_p90": 1.0277432290022261,
+ "tpot_p50_ms": 32.30976514317387,
+ "turns_per_min": 47.37957476123956
+}
+=== 18:23:15 sessions=16
+ "turns": 10,
+ "start": 30000,
+ "step": 6000,
+ "out": 256,
+ "max_prompt": 86304,
+ "wall_s": 160.76112238503993,
+ "ttft_first_turn_p50": 18.739449653512565,
+ "ttft_later_turns_p50": 0.5696666550065856,
+ "ttft_later_turns_p90": 1.0396703779697418,
+ "tpot_p50_ms": 50.028360460761604,
+ "turns_per_min": 59.715930428794735
+}
+AGENTDONE

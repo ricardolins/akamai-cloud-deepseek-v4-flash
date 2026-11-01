@@ -24,8 +24,10 @@ p.add_argument("--seed", type=int, default=0)
 p.add_argument("--result", required=True)
 a = p.parse_args()
 
-rng = random.Random(a.seed)
-toks = lambda n: [rng.randrange(1000, a.vocab) for _ in range(n)]
+# one generator per session, seeded from (seed, sessions, session id): every run and session gets fresh content,
+# so a turn can only hit the prefix cache with its OWN earlier turns (never with another run's prompts)
+def toks(rng, n):
+    return [rng.randrange(1000, a.vocab) for _ in range(n)]
 
 
 async def turn(http, prompt):
@@ -47,19 +49,21 @@ async def turn(http, prompt):
 
 
 async def session(http, sid, rows):
-    ctx = toks(a.start)
+    rng = random.Random(f"{a.seed}-{a.sessions}-{sid}")
+    ctx = toks(rng, a.start)
     for t in range(a.turns):
         r = await turn(http, ctx)
         r.update(session=sid, turn=t, prompt_len=len(ctx))
         rows.append(r)
         print(f"s{sid} t{t} prompt={len(ctx)} ttft={r['ttft']:.2f}s tpot={r['tpot'] * 1000:.1f}ms", flush=True)
-        ctx = ctx + toks(a.out) + toks(a.step)   # previous answer (approximated) + new tool output
+        ctx = ctx + toks(rng, a.out) + toks(rng, a.step)   # previous answer (approximated) + new tool output
 
 
 async def main():
     rows = []
     timeout = aiohttp.ClientTimeout(total=3600)
-    async with aiohttp.ClientSession(timeout=timeout) as http:
+    # long prompts: the first streamed chunk can exceed aiohttp's 512 KB line limit
+    async with aiohttp.ClientSession(timeout=timeout, read_bufsize=2**22, max_line_size=2**24) as http:
         t0 = time.perf_counter()
         await asyncio.gather(*(session(http, s, rows) for s in range(a.sessions)))
         wall = time.perf_counter() - t0
