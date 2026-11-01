@@ -1,0 +1,4 @@
+{"model": "deepseek-v4.1-flash", "extra": "{}", "n": 250, "correct": 245, "accuracy": 0.98, "seconds": 117.1}
+{"target_tokens": 100000, "prompt_tokens": 107565, "seconds": 9.6, "needle_50pct": true, "needle_80pct": true, "answer": "1: VIOLET-7342; 2: BLUE HERON"}
+{"target_tokens": 500000, "prompt_tokens": 534083, "seconds": 44.6, "needle_50pct": true, "needle_80pct": true, "answer": "1: VIOLET-7342; 2: BLUE HERON"}
+{"target_tokens": 950000, "prompt_tokens": 1013683, "seconds": 92.6, "needle_50pct": true, "needle_80pct": true, "answer": "1: VIOLET-7342; 2: BLUE HERON"}
