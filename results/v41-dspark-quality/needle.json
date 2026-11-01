@@ -1,0 +1,22 @@
+{
+ "model": "deepseek-v4.1-flash",
+ "extra": "{}",
+ "results": [
+  {
+   "target_tokens": 100000,
+   "prompt_tokens": 107565,
+   "seconds": 8.8,
+   "needle_50pct": true,
+   "needle_80pct": true,
+   "answer": "1: VIOLET-7342; 2: BLUE HERON"
+  },
+  {
+   "target_tokens": 500000,
+   "prompt_tokens": 534083,
+   "seconds": 44.2,
+   "needle_50pct": true,
+   "needle_80pct": true,
+   "answer": "1: VIOLET-7342; 2: BLUE HERON"
+  }
+ ]
+}

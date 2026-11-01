@@ -1,0 +1,92 @@
+{"model": "deepseek-v4.1-flash", "extra": "{}", "n": 250, "correct": 244, "accuracy": 0.976, "seconds": 75.5}
+{"target_tokens": 100000, "prompt_tokens": 107565, "seconds": 8.8, "needle_50pct": true, "needle_80pct": true, "answer": "1: VIOLET-7342; 2: BLUE HERON"}
+{"target_tokens": 500000, "prompt_tokens": 534083, "seconds": 44.2, "needle_50pct": true, "needle_80pct": true, "answer": "1: VIOLET-7342; 2: BLUE HERON"}
+=== 18:35:22 specbench_c1
+Successful requests:                     20        
+Failed requests:                         0         
+Total generated tokens:                  7913      
+Output token throughput (tok/s):         139.33    
+Median TTFT (ms):                        69.83     
+Median TPOT (ms):                        6.43      
+Median ITL (ms):                         17.21     
+Median E2EL (ms):                        3324.77   
+Acceptance rate (%):                     48.92     
+Acceptance length:                       2.47      
+Per-position acceptance (%):
+=== 18:36:29 specbench_c4
+Successful requests:                     20        
+Failed requests:                         0         
+Total generated tokens:                  8478      
+Output token throughput (tok/s):         370.31    
+Median TTFT (ms):                        109.89    
+Median TPOT (ms):                        9.96      
+Median ITL (ms):                         25.02     
+Median E2EL (ms):                        5119.96   
+Acceptance rate (%):                     50.06     
+Acceptance length:                       2.50      
+Per-position acceptance (%):
+=== 18:37:02 specbench_c16
+Successful requests:                     64        
+Failed requests:                         0         
+Total generated tokens:                  26353     
+Output token throughput (tok/s):         676.06    
+Median TTFT (ms):                        217.49    
+Median TPOT (ms):                        19.95     
+Median ITL (ms):                         50.22     
+Median E2EL (ms):                        10270.93  
+Acceptance rate (%):                     49.21     
+Acceptance length:                       2.48      
+Per-position acceptance (%):
+=== 18:37:52 specbench_c64
+Successful requests:                     256       
+Failed requests:                         0         
+Total generated tokens:                  95646     
+Output token throughput (tok/s):         1351.20   
+Median TTFT (ms):                        359.52    
+Median TPOT (ms):                        39.85     
+Median ITL (ms):                         95.65     
+Median E2EL (ms):                        17196.32  
+Acceptance rate (%):                     48.76     
+Acceptance length:                       2.46      
+Per-position acceptance (%):
+=== done 18:39:14
+=== 18:39:14 agent sessions=1
+ "turns": 10,
+ "start": 30000,
+ "step": 6000,
+ "out": 256,
+ "max_prompt": 86304,
+ "wall_s": 20.7629808440106,
+ "ttft_first_turn_p50": 2.1645262179663405,
+ "ttft_later_turns_p50": 0.5246353910188191,
+ "ttft_later_turns_p90": 0.5550145739689469,
+ "tpot_p50_ms": 4.867477809745526,
+ "turns_per_min": 28.89758481731101
+}
+=== 18:39:35 agent sessions=4
+ "turns": 10,
+ "start": 30000,
+ "step": 6000,
+ "out": 256,
+ "max_prompt": 86304,
+ "wall_s": 44.17319529695669,
+ "ttft_first_turn_p50": 5.669405265507521,
+ "ttft_later_turns_p50": 0.5760605079995003,
+ "ttft_later_turns_p90": 1.0376147369970568,
+ "tpot_p50_ms": 11.731397876557072,
+ "turns_per_min": 54.33159145191718
+}
+=== 18:40:19 agent sessions=16
+ "turns": 10,
+ "start": 30000,
+ "step": 6000,
+ "out": 256,
+ "max_prompt": 86304,
+ "wall_s": 136.16991098603467,
+ "ttft_first_turn_p50": 19.2278404639801,
+ "ttft_later_turns_p50": 0.6322034160257317,
+ "ttft_later_turns_p90": 1.1093338250066154,
+ "tpot_p50_ms": 37.46147542545919,
+ "turns_per_min": 70.50015624218598
+}
+ALLDONE
