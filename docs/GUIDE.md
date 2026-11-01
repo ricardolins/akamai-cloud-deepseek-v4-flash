@@ -252,6 +252,14 @@ on communication. Single-user decode is **74 tok/s on TP=8 vs 98 tok/s on one TP
 | 9 | `vllm bench` with Spec-Bench: `No module named 'pandas'` | Not in the vLLM image | `pip install pandas` in the pod |
 | 10 | `Cannot use chat template functions because tokenizer.chat_template is not set` | DeepSeek-V4 ships its prompt encoder as code, not as an HF template | `--tokenizer-mode deepseek_v4` on the benchmark client |
 | 11 | Cleanup: `crictl: No such file or directory` | LKE nodes ship `ctr`, not `crictl` | `ctr -n k8s.io images rm ...` ([k8s/90-cleanup-node.yaml](../k8s/90-cleanup-node.yaml)) |
+| 12 | **V4.1**: engine dies at start-up, `block_kv == 32 or block_kv == 64` | vLLM 0.32.0 declares 128-token KV blocks for V4.1 on SM120; SM120 kernels accept 32/64 only ([V4.1-FLASH §5](V4.1-FLASH.md#5-first-attempt-stock-vllm-0320-fails-on-sm120)) | Apply vLLM PR #60762 (4 lines) + FlashInfer 0.7.2.post1 at container start ([V4.1-FLASH §6](V4.1-FLASH.md#6-the-working-stack-patched-not-yet-released-upstream)) |
+| 13 | **V4.1**: `flashinfer_jit_cache has no attribute __version__` | The per-arch `flashinfer-jit-cache-sm120f` wheel needs the `flashinfer-jit-cache` shim of the same version | Install both from the cu130 index (`https://flashinfer.ai/whl/cu130`) |
+| 14 | **V4.1**: `flashinfer-cubin==0.7.2` not found | No 0.7.x `flashinfer-cubin` release exists | Uninstall the 0.7.0 cubin package; not needed with the JIT cache |
+| 15 | Benchmark never started (`bench.log: No such file`) | `mkdir` sat on the same line as a backgrounded `&` command, so it ran in the background too | Separate script file ([scripts/run-v41-phaseB.sh](../scripts/run-v41-phaseB.sh) style) |
+| 16 | `pkill -f "nvidia-smi dmon"` killed the `kubectl exec` itself (exit 143) | The exec's own command line contains the pattern | Kill by PID (`pgrep -x nvidia-smi`) |
+| 17 | Agent simulation: `LineTooLong ... 524288 bytes` with 8 sessions | First streamed chunk of an 86k-token prompt exceeds aiohttp's 512 KB line limit | `read_bufsize` / `max_line_size` raised in [scripts/agent_sim.py](../scripts/agent_sim.py) |
+| 18 | Agent simulation: suspiciously fast cold turns in later runs | Same random seed in every run → turn 1 hit the prefix cache of the previous run | One seed per (run, session); runs repeated |
+| 19 | Launch script picked the old pod (`cannot exec in a stopped container`) | With `Recreate`, the terminating pod still reports ready for a few seconds | Select pods without `deletionTimestamp` |
 
 ## 6. Cleanup
 
@@ -265,7 +273,9 @@ kubectl apply -f k8s/90-cleanup-node.yaml   # privileged pod: rm -rf /var/lib/ll
 kubectl delete pod cleanup-node
 ```
 
-Output: [logs/cleanup-node.log](../logs/cleanup-node.log). The cleanup pod reuses an image already on the node
+Output: [logs/cleanup-node.log](../logs/cleanup-node.log) (V4) and [logs/cleanup-node-v41.log](../logs/cleanup-node-v41.log)
+(V4.1, 2026-11-01: 476 GiB of weights + FlashInfer wheels + vLLM image removed; the cleanup pod pulled the small
+`nvidia/cuda` base image again and the host timer removed it). The cleanup pod reuses an image already on the node
 (`nvidia/cuda:12.9.1-base`, left from the GPU validation), and a `systemd-run` timer on the host removes that
 image two minutes after the pod is gone. The GPU Operator (namespace `gpu-operator`) belongs to the cluster
 setup and was kept.

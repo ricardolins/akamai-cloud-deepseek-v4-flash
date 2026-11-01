@@ -173,3 +173,18 @@ one replica measured 1,527 tok/s; two replicas would be ~3,000 tok/s (×2 is an 
 | KV cache | TP=8: 6.26 M tokens; TP=4: 4.37 M per replica (8.7 M per node) |
 | Download | 149 GB in 126 s from Hugging Face |
 | Stability | No errors, restarts or failed requests during ~3 h of testing |
+
+## 8. DeepSeek-V4.1-Flash (tested 2026-11-01)
+
+Full analysis and tables: [V4.1-FLASH.md](V4.1-FLASH.md). Headlines, same node, TP=8 (the only layout that fits):
+
+| | V4.1-Flash (patched vLLM 0.32.0) | V4-Flash TP=8 | V4-Flash TP=4 (one replica) |
+|---|---:|---:|---:|
+| 120k prompt, 1 user: TTFT / tok/s | **8.9 s** / 78 | 14.1 s / 67 | 13.4 s / 90 |
+| 1M prompt, 1 user: TTFT / tok/s | **90.8 s** / **78** | 222.7 s / 42 | 216.7 s / 51 |
+| 10k prompts, 128 users: node total | 540 tok/s | 423 tok/s | 803 tok/s (2 replicas) |
+| Real text, 1 user, speculative decoding | **155 tok/s** (DSpark) | — | 161 tok/s (MTP) |
+| Agent turn with prefix caching, 30k→86k context | **~0.55 s TTFT**, 1–16 agents | not measured | not measured |
+| GSM8K (250) / 1M needle | 245/250 / found | — | — |
+
+V4.1 needs vLLM PR #60762 + FlashInfer 0.7.2 on SM120 (not in a release yet).

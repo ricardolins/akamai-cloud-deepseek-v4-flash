@@ -1,5 +1,5 @@
 # One-off cleanup pod: removes everything the benchmark left on the GPU node's disk.
-#  - /var/lib/llm-models (model weights 149 GB + raw results), the hostPath used by the download Job and vLLM
+#  - /var/lib/llm-models (model weights: 149 GB for V4-Flash, 476 GiB for V4.1-Flash, FlashInfer wheels, raw results), the hostPath used by the download Job and vLLM
 #  - the vLLM image (9.2 GB) from containerd (LKE nodes have `ctr`, not `crictl`)
 #  - schedules (systemd timer on the host) the removal of this pod's own image after the pod is gone
 # Uses an image already present on the node, so nothing new is downloaded.
