@@ -1,0 +1,98 @@
+# Same as 21-*, with PREFIX CACHING ON (agent / real-text tests).
+# DeepSeek-V4.1-Flash on vLLM 0.32.0 + two NOT-YET-RELEASED changes needed on SM120 (RTX PRO 6000):
+#   1. vLLM PR #60762 (https://github.com/vllm-project/vllm/pull/60762): 64-token KV kernel blocks for the V4.1
+#      indexer and FlashInfer sparse-MLA backends on SM12x (stock 0.32.0 declares 128 -> DeepGEMM assertion
+#      "block_kv == 32 or block_kv == 64"). Source diff: patches/vllm-pr60762-sm120-64-token-blocks.diff (4 lines).
+#   2. FlashInfer 0.7.2.post1 (image ships 0.7.0.post1; the PR needs >= 0.7.1rc5 for runtime page sizes).
+# Both are applied inside the container at start-up (start.sh below); the node is not modified.
+# Wheels + diff are pre-staged on the node disk in /var/lib/llm-models/wheels (copied from pip / GitHub).
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dsv41-patch
+  namespace: llm-bench
+data:
+  start.sh: |
+    #!/bin/bash
+    set -euo pipefail
+    W=/models/wheels
+    echo "[patch] replacing FlashInfer 0.7.0.post1 with 0.7.2.post1"
+    pip uninstall -y -q flashinfer-python flashinfer-cubin flashinfer-jit-cache flashinfer-jit-cache-sm80 \
+      flashinfer-jit-cache-sm89 flashinfer-jit-cache-sm90a flashinfer-jit-cache-sm100a flashinfer-jit-cache-sm103a \
+      flashinfer-jit-cache-sm120f 2>/dev/null || true
+    pip install -q --no-deps $W/flashinfer_python-0.7.2.post1-*.whl $W/flashinfer_jit_cache-0.7.2.post1*.whl \
+      $W/flashinfer_jit_cache_sm120f-0.7.2.post1*.whl
+    echo "[patch] applying vLLM PR #60762"
+    (cd /usr/local/lib/python3.12/dist-packages && patch -p1 --forward < $W/pr60762-src.diff)
+    python3 -c "import flashinfer, vllm; print('[patch] flashinfer', flashinfer.__version__, 'vllm', vllm.__version__)"
+    exec vllm serve "$@"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dsv41-flash
+  namespace: llm-bench
+  labels: {app: dsv41-flash}
+spec:
+  replicas: 1
+  strategy: {type: Recreate}            # one copy takes all 8 GPUs
+  selector:
+    matchLabels: {app: dsv41-flash}
+  template:
+    metadata:
+      labels: {app: dsv41-flash}
+    spec:
+      containers:
+      - name: vllm
+        image: vllm/vllm-openai:v0.32.0
+        command: ["bash", "/patch/start.sh"]   # applies FlashInfer 0.7.2 + PR #60762, then vllm serve
+        args:
+        - deepseek-ai/DeepSeek-V4.1-Flash
+        - --served-model-name=deepseek-v4.1-flash
+        - --tensor-parallel-size=8          # split every layer across the 8 GPUs
+        - --max-model-len=1048576           # the model's native 1M-token window
+        - --tokenizer-mode=deepseek_v41     # V4.1 prompt encoder (thinking, tools, reasoning effort)
+        - --reasoning-parser=deepseek_v41
+        - --tool-call-parser=deepseek_v41
+        - --enable-auto-tool-choice
+        - --gpu-memory-utilization=0.90
+        - --enable-prefix-caching           # agent test: repeated context is served from the KV cache
+        - --port=8000
+        env:
+        - {name: HF_HOME, value: /models/hf}
+        - {name: HF_HUB_OFFLINE, value: "1"}  # weights were pre-downloaded by the Job in 05-download-model.yaml
+        - {name: VLLM_LOGGING_LEVEL, value: INFO}
+        ports:
+        - {containerPort: 8000, name: http}
+        resources:
+          limits: {nvidia.com/gpu: 8}
+          requests: {nvidia.com/gpu: 8, cpu: "32", memory: 512Gi}   # Engram tables live in host RAM
+        readinessProbe:
+          httpGet: {path: /health, port: 8000}
+          periodSeconds: 10
+          failureThreshold: 3
+        startupProbe:                       # loading 510 GB + kernel JIT + CUDA graph capture
+          httpGet: {path: /health, port: 8000}
+          periodSeconds: 15
+          failureThreshold: 360             # up to 90 min
+        volumeMounts:
+        - {name: models, mountPath: /models}
+        - {name: shm, mountPath: /dev/shm}
+        - {name: patch, mountPath: /patch}
+      volumes:
+      - name: models                        # local disk of the GPU node; survives pod restarts
+        hostPath: {path: /var/lib/llm-models, type: DirectoryOrCreate}
+      - name: shm                           # NCCL needs a large /dev/shm for tensor parallelism
+        emptyDir: {medium: Memory, sizeLimit: 64Gi}
+      - name: patch
+        configMap: {name: dsv41-patch}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dsv41-flash
+  namespace: llm-bench
+spec:
+  selector: {app: dsv41-flash}
+  ports:
+  - {port: 8000, targetPort: http, name: http}
